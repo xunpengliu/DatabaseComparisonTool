@@ -4,7 +4,7 @@ import cn.xunpengliu.databaseComparisonTool.core.analysis.DataAnalysis;
 import cn.xunpengliu.databaseComparisonTool.core.command.DbCommand;
 import cn.xunpengliu.databaseComparisonTool.core.dataSource.DataSource;
 import cn.xunpengliu.databaseComparisonTool.core.model.DatabaseModel;
-import cn.xunpengliu.databaseComparisonTool.core.model.TableInfoModel;
+import cn.xunpengliu.databaseComparisonTool.core.model.TableFieldModel;
 import cn.xunpengliu.databaseComparisonTool.core.model.TableModel;
 import cn.xunpengliu.databaseComparisonTool.exception.LinkDataBaseException;
 import cn.xunpengliu.databaseComparisonTool.exception.SelectException;
@@ -49,7 +49,7 @@ public class Worker {
         return analysis.analysisTable(maps);
     }
 
-    public List<TableInfoModel> obtainTableInfo(DatabaseModel db,TableModel tb){
+    public List<TableFieldModel> obtainTableInfo(DatabaseModel db, TableModel tb){
         List<Map<Integer,Object>> maps = obtainData(command.tableInfoCommand(db,tb));
         return analysis.analysisTableInfo(maps);
     }

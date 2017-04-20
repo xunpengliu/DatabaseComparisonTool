@@ -1,7 +1,7 @@
 package cn.xunpengliu.databaseComparisonTool.core.analysis;
 
 import cn.xunpengliu.databaseComparisonTool.core.model.DatabaseModel;
-import cn.xunpengliu.databaseComparisonTool.core.model.TableInfoModel;
+import cn.xunpengliu.databaseComparisonTool.core.model.TableFieldModel;
 import cn.xunpengliu.databaseComparisonTool.core.model.TableModel;
 
 import java.util.List;
@@ -27,5 +27,5 @@ public interface DataAnalysis {
      */
     List<TableModel> analysisTable(List<Map<Integer,Object>> datas);
 
-    List<TableInfoModel> analysisTableInfo(List<Map<Integer,Object>> datas);
+    List<TableFieldModel> analysisTableInfo(List<Map<Integer,Object>> datas);
 }

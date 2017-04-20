@@ -2,7 +2,7 @@ package cn.xunpengliu.databaseComparisonTool.core.analysis.impl;
 
 import cn.xunpengliu.databaseComparisonTool.core.analysis.DataAnalysis;
 import cn.xunpengliu.databaseComparisonTool.core.model.DatabaseModel;
-import cn.xunpengliu.databaseComparisonTool.core.model.TableInfoModel;
+import cn.xunpengliu.databaseComparisonTool.core.model.TableFieldModel;
 import cn.xunpengliu.databaseComparisonTool.core.model.TableModel;
 
 import java.math.BigInteger;
@@ -41,10 +41,10 @@ public class MySqlAnalysisImpl implements DataAnalysis {
     }
 
     @Override
-    public List<TableInfoModel> analysisTableInfo(List<Map<Integer, Object>> datas) {
-        List<TableInfoModel> tableInfoModels = new ArrayList<>(10);
+    public List<TableFieldModel> analysisTableInfo(List<Map<Integer, Object>> datas) {
+        List<TableFieldModel> tableInfoModels = new ArrayList<>(10);
         for (Map<Integer, Object> data : datas) {
-            TableInfoModel tim = new TableInfoModel();
+            TableFieldModel tim = new TableFieldModel();
             tim.setFieldName((String) data.get(1));
             tim.setDataType((String) data.get(2));
 
@@ -54,7 +54,16 @@ public class MySqlAnalysisImpl implements DataAnalysis {
             }
 
             tim.setColumnDefault(data.get(4));
-            tim.setNullable("yes".equals(data.get(5)));
+            tim.setNullable("yes".equalsIgnoreCase((String) data.get(5)));
+            String keyType = (String) data.get(6);
+            if("pri".equalsIgnoreCase(keyType)){
+                tim.setKeyType(TableFieldModel.KEY_TYPE.PRI);
+            }else if("mul".equalsIgnoreCase(keyType)){
+                tim.setKeyType(TableFieldModel.KEY_TYPE.MUL);
+            }else if("un".equalsIgnoreCase(keyType)){
+                tim.setKeyType(TableFieldModel.KEY_TYPE.UN);
+            }
+
             tableInfoModels.add(tim);
         }
         return tableInfoModels;

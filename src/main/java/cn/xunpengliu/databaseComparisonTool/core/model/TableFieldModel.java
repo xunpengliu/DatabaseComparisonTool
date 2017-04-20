@@ -8,12 +8,15 @@ import java.util.List;
  *
  */
 
-public class TableInfoModel{
+public class TableFieldModel {
+    public static enum KEY_TYPE{PRI,MUL,UN,NOT}
+
     private String fieldName;
     private String dataType;
     private BigInteger length;
     private Object columnDefault;
     private boolean nullable;
+    private KEY_TYPE keyType = KEY_TYPE.NOT;
 
     public String getDataType() {
         return dataType;
@@ -53,5 +56,29 @@ public class TableInfoModel{
 
     public void setNullable(boolean nullable) {
         this.nullable = nullable;
+    }
+
+    public KEY_TYPE getKeyType() {
+        return keyType;
+    }
+
+    public void setKeyType(KEY_TYPE keyType) {
+        this.keyType = keyType;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean b =  super.equals(obj);
+        if(b){
+            return b;
+        }
+        if(obj == null || !(obj instanceof TableFieldModel)){
+            return false;
+        }
+        if(fieldName.equals(((TableFieldModel) obj).getFieldName())){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

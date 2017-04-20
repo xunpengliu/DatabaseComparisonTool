@@ -23,7 +23,7 @@ public class MySqlDbCommandImpl implements DbCommand {
 
     @Override
     public String tableInfoCommand(DatabaseModel db, TableModel tb) {
-        return "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH,COLUMN_DEFAULT,IS_NULLABLE " +
+        return "select column_name,data_type,CHARACTER_MAXIMUM_LENGTH,COLUMN_DEFAULT,IS_NULLABLE,COLUMN_KEY " +
                 " from information_schema.columns " +
                 " where table_schema ='"+db.getDbName()+"' " +
                 " and table_name = '"+tb.getTableName()+"' ;";

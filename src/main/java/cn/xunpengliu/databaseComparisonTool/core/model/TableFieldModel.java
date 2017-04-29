@@ -1,15 +1,10 @@
 package cn.xunpengliu.databaseComparisonTool.core.model;
 
 import java.math.BigInteger;
-import java.util.List;
 
-/**
- * Created by LXP on 2017/4/19.
- *
- */
 
 public class TableFieldModel {
-    public static enum KEY_TYPE{PRI,MUL,UN,NOT}
+    public enum KEY_TYPE{PRI,MUL,UN,NOT}
 
     private String fieldName;
     private String dataType;
@@ -68,17 +63,12 @@ public class TableFieldModel {
 
     @Override
     public boolean equals(Object obj) {
-        boolean b =  super.equals(obj);
-        if(b){
-            return b;
+        if(this == obj){
+            return true;
         }
         if(obj == null || !(obj instanceof TableFieldModel)){
             return false;
         }
-        if(fieldName.equals(((TableFieldModel) obj).getFieldName())){
-            return true;
-        }else{
-            return false;
-        }
+        return fieldName.equals(((TableFieldModel) obj).getFieldName());
     }
 }

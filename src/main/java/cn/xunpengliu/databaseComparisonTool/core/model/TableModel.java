@@ -2,15 +2,11 @@ package cn.xunpengliu.databaseComparisonTool.core.model;
 
 import java.util.List;
 
-/**
- * Created by LXP on 2017/4/19.
- *
- */
 
 public class TableModel {
     private String tableName;
 
-    List<TableFieldModel> field;
+    private List<TableFieldModel> fields;
 
     public String getTableName() {
         return tableName;
@@ -20,11 +16,22 @@ public class TableModel {
         this.tableName = tableName;
     }
 
-    public List<TableFieldModel> getField() {
-        return field;
+    public List<TableFieldModel> getFields() {
+        return fields;
     }
 
-    public void setField(List<TableFieldModel> field) {
-        this.field = field;
+    public void setFields(List<TableFieldModel> fields) {
+        this.fields = fields;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(obj == null || !(obj instanceof TableModel)){
+            return false;
+        }
+        return tableName.equals(((TableModel) obj).getTableName());
     }
 }

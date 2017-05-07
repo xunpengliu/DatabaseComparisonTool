@@ -17,8 +17,12 @@ public class MysqlDataSrouceModel extends DataSourceModel {
 		this.password = password;
 		this.port = port;
 	}
-	
-	@Override
+
+    public MysqlDataSrouceModel() {
+
+    }
+
+    @Override
 	public String getConnectionUrl() {
 		StringBuilder sb = new StringBuilder(128);
 		sb.append("jdbc:mysql://").append(host).append(':').append(port);

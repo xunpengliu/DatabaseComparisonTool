@@ -11,11 +11,12 @@ import java.util.*;
 public class ReportImpl implements Report {
     private final String dividingLine = "*****************************************************************";
     private final String TABLE = "    ";
-
+    private final String lineSeparator = System.getProperty("line.separator", "\n");
+    
     @Override
     public ReportModel report(DatabaseModel sourceDb, DatabaseModel targetDb, int all) {
         StringBuilder sb = new StringBuilder(256);
-        sb.append("检查数据库:").append(sourceDb.getDbName()).append('\n');
+        sb.append("检查数据库:").append(sourceDb.getDbName()).append(lineSeparator);
 
         StringBuilder tableMost = new StringBuilder();
         StringBuilder tableLost = new StringBuilder();
@@ -43,16 +44,16 @@ public class ReportImpl implements Report {
             }
         }
 
-        sb.append(String.format("All result==>error:%s warm:%s info:%s\n", error, warm, info))
-                .append(dividingLine).append('\n');
+        sb.append(String.format("All result==>error:%s warm:%s info:%s%s", error, warm, info,lineSeparator))
+                .append(dividingLine).append(lineSeparator);
         if (tableLost.length() > 0) {
-            sb.append("表缺失:\n").append(TABLE).append(tableLost.subSequence(0, tableLost.length() - 1)).append('\n');
+            sb.append("表缺失:").append(lineSeparator).append(TABLE).append(tableLost.subSequence(0, tableLost.length() - 1)).append(lineSeparator);
         }
         if (tableMost.length() > 0) {
-            sb.append("表多余:\n").append(TABLE).append(tableMost.subSequence(0, tableMost.length() - 1)).append('\n');
+            sb.append("表多余:").append(lineSeparator).append(TABLE).append(tableMost.subSequence(0, tableMost.length() - 1)).append(lineSeparator);
         }
 
-        sb.append('\n');
+        sb.append(lineSeparator);
 
         Collections.sort(reportModels, new Comparator<ReportModel>() {
             @Override
@@ -65,7 +66,7 @@ public class ReportImpl implements Report {
 
         for (ReportModel reportModel : reportModels) {
             if(reportModel.getMessage() != null) {
-                sb.append(reportModel.getMessage()).append('\n');
+                sb.append(reportModel.getMessage()).append(lineSeparator);
             }
         }
 
@@ -80,7 +81,7 @@ public class ReportImpl implements Report {
     @Override
     public ReportModel report(TableModel source, TableModel target, int level) {
         StringBuilder sb = new StringBuilder(256);
-        sb.append("检查表:").append(source.getTableName()).append('\n');
+        sb.append("检查表:").append(source.getTableName()).append(lineSeparator);
         StringBuilder message = new StringBuilder();
         StringBuilder fieldLost = new StringBuilder();
         StringBuilder fieldMore = new StringBuilder();
@@ -104,23 +105,23 @@ public class ReportImpl implements Report {
             } else {
                 StringBuilder temp = new StringBuilder();
                 if (!tf1.getDataType().equals(tf2.getDataType())) {
-                    temp.append("    数据类型不一致 source==>").append(tf1.getDataType()).append(" target==>").append(tf2.getDataType()).append('\n');
+                    temp.append("    数据类型不一致 source==>").append(tf1.getDataType()).append(" target==>").append(tf2.getDataType()).append(lineSeparator);
                     error++;
                 }
                 if (!Utils.isEqual(tf1.getLength(), tf2.getLength())) {
-                    temp.append("    数据长度不一致 source length==>").append(tf1.getLength()).append(" target length==>").append(tf2.getLength()).append('\n');
+                    temp.append("    数据长度不一致 source length==>").append(tf1.getLength()).append(" target length==>").append(tf2.getLength()).append(lineSeparator);
                     warm++;
                 }
                 if (tf1.isNullable() != tf2.isNullable()) {
-                    temp.append("    source nullable==>").append(tf1.isNullable()).append(" target nullable==>").append(tf2.isNullable()).append('\n');
+                    temp.append("    source nullable==>").append(tf1.isNullable()).append(" target nullable==>").append(tf2.isNullable()).append(lineSeparator);
                     info++;
                 }
                 if (!Utils.isEqual(tf1.getColumnDefault(), tf2.getColumnDefault())) {
-                    temp.append("    默认值不一致 source==>").append(tf1.getColumnDefault()).append(" target==>").append(tf2.getColumnDefault()).append('\n');
+                    temp.append("    默认值不一致 source==>").append(tf1.getColumnDefault()).append(" target==>").append(tf2.getColumnDefault()).append(lineSeparator);
                     warm++;
                 }
                 if (temp.length() != 0) {
-                    message.append("Field:").append(tf1.getFieldName()).append('\n').append(temp);
+                    message.append("Field:").append(tf1.getFieldName()).append(lineSeparator).append(temp);
                 }
             }
         }
@@ -128,10 +129,10 @@ public class ReportImpl implements Report {
         sb.append(String.format("Result error:%s warm:%s info:%s\n", error, warm, info));
 
         if (fieldLost.length() > 0) {
-            sb.append("字段缺失:\n").append(TABLE).append(fieldLost.subSequence(0, fieldLost.length() - 1)).append('\n');
+            sb.append("字段缺失:").append(lineSeparator).append(TABLE).append(fieldLost.subSequence(0, fieldLost.length() - 1)).append(lineSeparator);
         }
         if (fieldMore.length() > 0) {
-            sb.append("字段多余:\n").append(TABLE).append(fieldMore.subSequence(0, fieldMore.length() - 1)).append('\n');
+            sb.append("字段多余:").append(lineSeparator).append(TABLE).append(fieldMore.subSequence(0, fieldMore.length() - 1)).append(lineSeparator);
         }
 
         sb.append(message);

@@ -27,7 +27,7 @@ public class MySqlDataSource implements DataSource {
 		try{
 			return DriverManager.getConnection(datasourceModel.getConnectionUrl());
 		}catch(SQLException e){
-			throw new LinkDataBaseException(e.getMessage());
+			throw new LinkDataBaseException("link url==>"+datasourceModel.getConnectionUrl()+" fail \nmessage:"+e.getMessage());
 		}
 	}
 }

@@ -8,6 +8,10 @@ import java.util.List;
  */
 
 public class DatabaseModel {
+    public DatabaseModel(){}
+    public DatabaseModel(String dbName){
+        this.dbName = dbName;
+    }
     private String dbName;
     private List<TableModel> tableModels;
 

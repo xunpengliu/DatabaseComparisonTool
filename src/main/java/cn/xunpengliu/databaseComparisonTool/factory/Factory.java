@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Factory {
 
-    public static String supportUrlPatten = "\\S+://\\S+/\\S+?username=\\S+&password=\\S+";
+    public static String supportUrlPatten = "\\S+://\\S+/\\S+\\?username=\\S+&password=\\S+";
 
     public static Map<String, String> conversionUrl(String url) throws NotSupportUrl {
         if (!url.matches(supportUrlPatten)) {

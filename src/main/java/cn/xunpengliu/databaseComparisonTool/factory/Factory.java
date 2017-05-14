@@ -4,7 +4,6 @@ package cn.xunpengliu.databaseComparisonTool.factory;
 import cn.xunpengliu.databaseComparisonTool.core.Worker;
 import cn.xunpengliu.databaseComparisonTool.core.analysis.impl.MySqlAnalysisImpl;
 import cn.xunpengliu.databaseComparisonTool.core.command.impl.MySqlDbCommandImpl;
-import cn.xunpengliu.databaseComparisonTool.core.dataSource.DataSource;
 import cn.xunpengliu.databaseComparisonTool.core.dataSource.MySqlDataSource;
 import cn.xunpengliu.databaseComparisonTool.core.dataSource.model.DataSourceModel;
 import cn.xunpengliu.databaseComparisonTool.core.dataSource.model.MysqlDataSrouceModel;
@@ -15,7 +14,7 @@ import java.util.Map;
 
 public class Factory {
 
-    public static String supportUrlPatten = "\\S+://\\S+/\\S+\\?username=\\S+&password=\\S+";
+    public static String supportUrlPatten = "\\S+://\\S+/\\S+";
 
     public static Map<String, String> conversionUrl(String url) throws NotSupportUrl {
         if (!url.matches(supportUrlPatten)) {
@@ -37,14 +36,19 @@ public class Factory {
             map.put("port", d[0].substring(temp+1));
         }
 
-        d = d[1].split("\\?");
-        map.put("databaseName",d[0]);
+        if (d[1].indexOf('?') != -1) {
+            d = d[1].split("\\?");
+            map.put("databaseName",d[0]);
 
-        String[] params = d[1].split("&");
-        for (String s1 : params) {
-            temp = s1.indexOf('=');
-            map.put(s1.substring(0, temp), s1.substring(temp + 1));
+            String[] params = d[1].split("&");
+            for (String s1 : params) {
+                temp = s1.indexOf('=');
+                map.put(s1.substring(0, temp), s1.substring(temp + 1));
+            }
+        }else{
+            map.put("databaseName",d[1]);
         }
+
         return map;
     }
 
@@ -59,8 +63,11 @@ public class Factory {
             } else {
                 dataSourceModel.setPort(3306);
             }
-            dataSourceModel.setUsername(data.get("username"));
-            dataSourceModel.setPassword(data.get("password"));
+            if(!data.containsKey("u") || !data.containsKey("p")){
+                throw new IllegalArgumentException("没有用户名和密码参数");
+            }
+            dataSourceModel.setUsername(data.get("u"));
+            dataSourceModel.setPassword(data.get("p"));
 
             return dataSourceModel;
         }
@@ -70,8 +77,7 @@ public class Factory {
 
     public static Worker getWork(DataSourceModel dataSourceModel) {
         if (dataSourceModel instanceof MysqlDataSrouceModel) {
-            Worker w = Worker.getWork(new MySqlDataSource(dataSourceModel), new MySqlDbCommandImpl(), new MySqlAnalysisImpl());
-            return w;
+            return Worker.getWork(new MySqlDataSource(dataSourceModel), new MySqlDbCommandImpl(), new MySqlAnalysisImpl());
         }
 
         throw new IllegalArgumentException("不支持的数据源");

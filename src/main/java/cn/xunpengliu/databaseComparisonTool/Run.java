@@ -26,7 +26,7 @@ public class Run {
     public static void main(String[] args) throws IOException {
         if (args.length < 2 || !args[0].matches(Factory.supportUrlPatten) || !args[1].matches(Factory.supportUrlPatten)) {
             System.out.println("你必须提交源链接和目标链接");
-            System.out.println("例如：mysql://host:port/DATABASE?username=USERNAME&password=PASSWORD mysql://host:port/DATABASE?username=USERNAME&password=PASSWORD");
+            System.out.println("例如：mysql://host:port/DATABASE?u=USERNAME&p=PASSWORD mysql://host:port/DATABASE?u=USERNAME&p=PASSWORD");
             return;
         }
         String sourceUrl = args[0];
